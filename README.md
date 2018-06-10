@@ -1,15 +1,16 @@
-# Introduction
+# 介绍
 
-This is a template to create **ASP.NET Core MVC / Angular** based startup projects for [ASP.NET Boilerplate](https://aspnetboilerplate.com/Pages/Documents). It has 2 different versions:
+Abp 结合前端 ng-alain的项目
 
-1. [ASP.NET Core MVC & jQuery](https://aspnetboilerplate.com/Pages/Documents/Zero/Startup-Template-Core) (server rendered multi-page application).
-2. [ASP.NET Core & Angular](https://aspnetboilerplate.com/Pages/Documents/Zero/Startup-Template-Angular) (single page application).
- 
-User Interface is based on [BSB Admin theme](https://github.com/gurayyarar/AdminBSBMaterialDesign).
- 
-# Download
+Abp 使用的3.8.0
 
-Create & download your project from https://aspnetboilerplate.com/Templates
+
+#  进展
+
+- [x] abp前端类库引入
+  - [x] abp 初始化
+  - [x] abp message
+  - [x] abp notiy
 
 # Screenshots
 

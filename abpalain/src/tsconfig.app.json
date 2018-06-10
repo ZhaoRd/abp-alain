@@ -1,0 +1,41 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/app",
+    "baseUrl": "./",
+    "module": "es2015",
+    "types": [],
+    "paths": {
+      "@abp/*": [ "../node_modules/abp-ng2-module/dist/src/*" ],
+      "@node_modules/*": [ "../node_modules/*" ],
+      "@shared": [
+        "app/shared"
+      ],
+      "@shared/*": [
+        "app/shared/*"
+      ],
+      "@core": [
+        "app/core/"
+      ],
+      "@core/*": [
+        "app/core/*"
+      ],
+      "@testing": [
+        "testing/"
+      ],
+      "@testing/*": [
+        "testing/*"
+      ],
+      "@env": [
+        "environments/"
+      ],
+      "@env/*": [
+        "environments/*"
+      ]
+    }
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts"
+  ]
+}

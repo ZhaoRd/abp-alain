@@ -51,37 +51,37 @@ export function I18nHttpLoaderFactory(http: HttpClient) {
 export function StartupServiceFactory(
   injector: Injector,
   startupService: StartupService,
-  
 ): Function {
-  return () => startupService.load()
-    .then(()=>{
-      // 初始化消息类通知
-      var abpMessage = injector.get(AbpMessage);
-      abpMessage.init();
-      
-      // 初始化abp
-      return new Promise<boolean>((resolve,reject)=>{
+  return () =>
+    startupService
+      .load()
+      .then(() => {
+        // 初始化消息类通知
+        const abpMessage = injector.get(AbpMessage);
+        abpMessage.init();
 
-        AppPreBootstrap.run(()=>{
-          abp.event.trigger('abp.dynamicScriptsInitialized');
-          
-          var appSessionService: AppSessionService = injector.get(AppSessionService);
+        // 初始化abp
+        return new Promise<boolean>((resolve, reject) => {
+          AppPreBootstrap.run(() => {
+            abp.event.trigger('abp.dynamicScriptsInitialized');
 
-          appSessionService
-            .init()
-            .then((result)=>{
-              resolve(result);
-            },(err)=>{
-              reject(err);
-            })
+            const appSessionService: AppSessionService = injector.get(
+              AppSessionService,
+            );
 
-          
+            appSessionService.init().then(
+              result => {
+                resolve(result);
+              },
+              err => {
+                reject(err);
+              },
+            );
+          });
         });
-
-      });
-    }).then(()=>{
-
-      /*
+      })
+      .then(() => {
+        /*
       abp.message.confirm("确认删除").then((res)=>{
         abp.notify.info(res);
       });
@@ -91,15 +91,13 @@ export function StartupServiceFactory(
       abp.message.warn('测试逐渐');
       abp.message.error('测试逐渐');
       */
-
-      /*
+        /*
      abp.notify.error('通知');
      abp.notify.info('通知');
      abp.notify.warn('通知');
      abp.notify.success('通知');
      */
-
-    });
+      });
 }
 
 export function getRemoteServiceBaseUrl(): string {
@@ -107,7 +105,7 @@ export function getRemoteServiceBaseUrl(): string {
 }
 
 export function getCurrentLanguage(): string {
-    return abp.localization.currentLanguage.name;
+  return abp.localization.currentLanguage.name;
 }
 
 @NgModule({
@@ -163,7 +161,7 @@ export function getCurrentLanguage(): string {
     {
       provide: APP_INITIALIZER,
       useFactory: StartupServiceFactory,
-      deps: [Injector,StartupService],
+      deps: [Injector, StartupService],
       multi: true,
     },
   ],

@@ -21,12 +21,19 @@ import { Exception403Component } from './exception/403.component';
 import { Exception404Component } from './exception/404.component';
 import { Exception500Component } from './exception/500.component';
 
+import { AppRouteGuard } from '@shared/auth/auth-route-guard';
+
 const routes: Routes = [
   {
     path: '',
     component: LayoutDefaultComponent,
     children: [
-      { path: '', redirectTo: 'dashboard/v1', pathMatch: 'full' },
+      {
+        path: '',
+        redirectTo: 'dashboard/v1',
+        pathMatch: 'full',
+        canActivate: [AppRouteGuard],
+      },
       { path: 'dashboard', redirectTo: 'dashboard/v1', pathMatch: 'full' },
       { path: 'dashboard/v1', component: DashboardV1Component },
       { path: 'dashboard/analysis', component: DashboardAnalysisComponent },

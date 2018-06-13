@@ -14,6 +14,11 @@ import { HeaderI18nComponent } from './default/header/components/i18n.component'
 import { HeaderStorageComponent } from './default/header/components/storage.component';
 import { HeaderUserComponent } from './default/header/components/user.component';
 
+import { TenantChangeComponent } from './passport/tenant/tenant-change.component';
+import { TenantChangeModalComponent } from './passport/tenant/tenant-change-modal.component';
+
+import { AccountLanguagesComponent } from './passport/layout/account-languages.component';
+
 const COMPONENTS = [
   LayoutDefaultComponent,
   LayoutFullScreenComponent,
@@ -39,7 +44,14 @@ const PASSPORT = [LayoutPassportComponent];
 @NgModule({
   imports: [SharedModule],
   providers: [],
-  declarations: [...COMPONENTS, ...HEADERCOMPONENTS, ...PASSPORT],
+  declarations: [
+    ...COMPONENTS,
+    ...HEADERCOMPONENTS,
+    ...PASSPORT,
+    TenantChangeComponent,
+    AccountLanguagesComponent,
+  ],
+  entryComponents: [TenantChangeModalComponent],
   exports: [...COMPONENTS, ...PASSPORT],
 })
 export class LayoutModule {}

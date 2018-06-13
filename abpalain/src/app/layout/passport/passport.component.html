@@ -6,8 +6,12 @@
         <span class="title">ng-alain</span>
       </div>
       <div class="desc">武林中最有影响力的《葵花宝典》；欲练神功，挥刀自宫</div>
+      <passport-tenant-change></passport-tenant-change>
     </div>
     <router-outlet></router-outlet>
+    <global-footer [links]="links">
+      <passport-account-languages></passport-account-languages>
+    </global-footer>
     <global-footer [links]="links">
       Copyright
       <i class="anticon anticon-copyright"></i> 2017

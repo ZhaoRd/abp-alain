@@ -27,7 +27,7 @@ const THIRDMODULES = [
 // endregion
 
 // region: your componets & directives
-const COMPONENTS = [AppModalService];
+const COMPONENTS = [];
 const DIRECTIVES = [];
 // endregion
 
@@ -66,5 +66,6 @@ const DIRECTIVES = [];
     ...COMPONENTS,
     ...DIRECTIVES,
   ],
+  providers: [AppModalService],
 })
 export class SharedModule {}

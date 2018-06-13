@@ -1,20 +1,20 @@
 import { Injectable, Type } from '@angular/core';
 
-import { NzModalService, NzMessageService } from 'ng-zorro-antd';
+import { NzModalService } from 'ng-zorro-antd';
 
 @Injectable()
 export class AppModalService {
-  constructor(private _modal: NzModalService) {}
+  constructor(private _modalService: NzModalService) {}
 
   show(content: string | Type<any>, componentParams?: object) {
     const options = {
-      content: content,
-      footer: false,
+      nzContent: content,
+      nzFooter: null,
       nzComponentParams: componentParams,
     };
 
-    this._modal.create(options);
+    const modal = this._modalService.create(options);
 
-    return this._modal.afterAllClose;
+    return modal.afterClose;
   }
 }

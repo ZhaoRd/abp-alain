@@ -19,6 +19,8 @@ import { TenantChangeModalComponent } from './passport/tenant/tenant-change-moda
 
 import { AccountLanguagesComponent } from './passport/layout/account-languages.component';
 
+import { NgZorroAntdModule } from 'ng-zorro-antd';
+
 const COMPONENTS = [
   LayoutDefaultComponent,
   LayoutFullScreenComponent,
@@ -42,7 +44,7 @@ import { LayoutPassportComponent } from './passport/passport.component';
 const PASSPORT = [LayoutPassportComponent];
 
 @NgModule({
-  imports: [SharedModule],
+  imports: [SharedModule, NgZorroAntdModule.forRoot()],
   providers: [],
   declarations: [
     ...COMPONENTS,
@@ -50,6 +52,7 @@ const PASSPORT = [LayoutPassportComponent];
     ...PASSPORT,
     TenantChangeComponent,
     AccountLanguagesComponent,
+    TenantChangeModalComponent,
   ],
   entryComponents: [TenantChangeModalComponent],
   exports: [...COMPONENTS, ...PASSPORT],

@@ -35,7 +35,11 @@ const routes: Routes = [
         canActivate: [AppRouteGuard],
       },
       { path: 'dashboard', redirectTo: 'dashboard/v1', pathMatch: 'full' },
-      { path: 'dashboard/v1', component: DashboardV1Component },
+      {
+        path: 'dashboard/v1',
+        component: DashboardV1Component,
+        canActivate: [AppRouteGuard],
+      },
       { path: 'dashboard/analysis', component: DashboardAnalysisComponent },
       { path: 'dashboard/monitor', component: DashboardMonitorComponent },
       { path: 'dashboard/workplace', component: DashboardWorkplaceComponent },

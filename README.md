@@ -11,6 +11,12 @@ Abp 使用的3.8.0
   - [x] abp 初始化
   - [x] abp message
   - [x] abp notiy
+- [ ] 登录页改造
+  - [x] 语言切换
+  - [x] 租户切换
+  - [ ] 登录
+  - [ ] 修改密码
+  - [ ] 忘记密码
 
 # Screenshots
 

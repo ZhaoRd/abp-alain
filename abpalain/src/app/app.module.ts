@@ -54,21 +54,21 @@ export function StartupServiceFactory(
 ): Function {
   return () =>
     startupService
-      .load()
-      .then(() => {
+      .load().then(() => {
+
         // 初始化消息类通知
         const abpMessage = injector.get(AbpMessage);
         abpMessage.init();
-
+      
         // 初始化abp
         return new Promise<boolean>((resolve, reject) => {
           AppPreBootstrap.run(() => {
             abp.event.trigger('abp.dynamicScriptsInitialized');
-
+      
             const appSessionService: AppSessionService = injector.get(
               AppSessionService,
             );
-
+      
             appSessionService.init().then(
               result => {
                 resolve(result);
@@ -81,24 +81,15 @@ export function StartupServiceFactory(
         });
       })
       .then(() => {
-        /*
-      abp.message.confirm("确认删除").then((res)=>{
-        abp.notify.info(res);
-      });
-      
-      abp.message.info('测试逐渐');
-      abp.message.success('测试逐渐');
-      abp.message.warn('测试逐渐');
-      abp.message.error('测试逐渐');
-      */
-        /*
-     abp.notify.error('通知');
-     abp.notify.info('通知');
-     abp.notify.warn('通知');
-     abp.notify.success('通知');
-     */
+        abp.message.success('测试提示');
+        
+        abp.notify.error('测试提醒');
       });
 }
+
+
+
+
 
 export function getRemoteServiceBaseUrl(): string {
   return AppConsts.remoteServiceBaseUrl;
@@ -168,3 +159,21 @@ export function getCurrentLanguage(): string {
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+
+
+        /*
+      abp.message.confirm("确认删除").then((res)=>{
+        abp.notify.info(res);
+      });
+      
+      abp.message.info('测试逐渐');
+      abp.message.success('测试逐渐');
+      abp.message.warn('测试逐渐');
+      abp.message.error('测试逐渐');
+      */
+        /*
+     abp.notify.error('通知');
+     abp.notify.info('通知');
+     abp.notify.warn('通知');
+     abp.notify.success('通知');
+     */

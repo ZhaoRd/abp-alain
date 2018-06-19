@@ -56,7 +56,7 @@ export class TenantChangeModalComponent extends AppComponentBase
     }
     */
   ngAfterViewInit(): void {
-    this.tenancyNameInput.nativeElement.focus().select();
+    // this.tenancyNameInput.nativeElement.focus().select();
     // throw new Error("Method not implemented.");
   }
 

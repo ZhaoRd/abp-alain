@@ -22,6 +22,7 @@
             ],
             "styles": [
               "node_modules/simple-line-icons/css/simple-line-icons.css",
+              "node_modules/famfamfam-flags/dist/sprite/famfamfam-flags.css",
               "src/styles.less"
             ],
             "scripts": [

@@ -22,7 +22,10 @@ import { Exception404Component } from './exception/404.component';
 import { Exception500Component } from './exception/500.component';
 
 import { AppRouteGuard } from '@shared/auth/auth-route-guard';
-
+/*
+,
+        canActivate: [AppRouteGuard],
+*/
 const routes: Routes = [
   {
     path: '',
@@ -38,7 +41,7 @@ const routes: Routes = [
       {
         path: 'dashboard/v1',
         component: DashboardV1Component,
-        canActivate: [AppRouteGuard],
+		canActivate: [AppRouteGuard]
       },
       { path: 'dashboard/analysis', component: DashboardAnalysisComponent },
       { path: 'dashboard/monitor', component: DashboardMonitorComponent },

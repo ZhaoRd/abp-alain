@@ -21,9 +21,12 @@ export class AbpMessage {
         abp.notify.info=(message: string, title?: string)=>{
             this.messageService.create('info', message);
         }
+
+        // 提醒
         abp.notify.success=(message: string, title?: string)=>{
             this.messageService.create('success', message);
         }
+        
         abp.notify.warn=(message: string, title?: string)=>{
             this.messageService.create('warn', message);
         }
@@ -42,6 +45,7 @@ export class AbpMessage {
               });
           };
 
+          // 弹出框提示
           abp.message.success = (message, title)=>{
             var dispalyTitle = title==null?message:title;
             this.modalService.success({

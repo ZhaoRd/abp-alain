@@ -24,7 +24,7 @@ Abp 使用的3.8.0
   - [ ] 用户信息显示
   
 
-# Screenshots
+# 页面展示
 
 #### 首页面板
 ![](_screenshots/alain-home.png)
@@ -39,12 +39,14 @@ Abp 使用的3.8.0
 
 #### 我的公众号
 
-![](_screenshots/qrcode.png)
+![](_screenshots/qrcode.jpg)
 
-# Documentation
+# 文档
 
 * [ASP.NET Core MVC & jQuery version.](https://aspnetboilerplate.com/Pages/Documents/Zero/Startup-Template-Core)
 * [ASP.NET Core & Angular  version.](https://aspnetboilerplate.com/Pages/Documents/Zero/Startup-Template-Angular)
+* [ng-alain.](https://ng-alain.com/)
+
 
 # License
 

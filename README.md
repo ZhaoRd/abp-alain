@@ -11,24 +11,30 @@ Abp 使用的3.8.0
   - [x] abp 初始化
   - [x] abp message
   - [x] abp notiy
-- [ ] 登录页改造
+- [x] 登录页改造
   - [x] 语言切换
   - [x] 租户切换
-  - [ ] 登录
-  - [ ] 修改密码
-  - [ ] 忘记密码
+  - [x] 登录
+  - [x] 登陆守护
+- [ ] 菜单改造
+  - [ ] 菜单配置
+  - [ ] 菜单权限
+- [ ] header布局改造
+  - [ ] 多语言
+  - [ ] 用户信息显示
+  
 
 # Screenshots
 
 #### Sample Dashboard Page
-![](_screenshots/module-zero-core-template-ui-home.png)
+![](_screenshots/alain-home.png)
 
 #### User Creation Modal
 ![](_screenshots/module-zero-core-template-ui-user-create-modal.png)
 
 #### Login Page
 
-![](_screenshots/module-zero-core-template-ui-login.png)
+![](_screenshots/alain-login.png)
 
 # Documentation
 

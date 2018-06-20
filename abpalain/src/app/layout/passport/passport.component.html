@@ -3,18 +3,21 @@
     <div class="top">
       <div class="head">
         <img class="logo" src="./assets/logo-color.svg">
-        <span class="title">ng-alain</span>
+        <span class="title">AbpAlain
+        </span>
       </div>
-      <div class="desc">武林中最有影响力的《葵花宝典》；欲练神功，挥刀自宫</div>
+      <div class="desc">Abp & NgAlain</div>
       <passport-tenant-change></passport-tenant-change>
     </div>
     <router-outlet></router-outlet>
-    <div><span>ddd</span></div>
+    
     <passport-account-languages></passport-account-languages>
+  
     <global-footer [links]="links">
+
       Copyright 
-      <i class="anticon anticon-copyright"></i> 2017  <i class="famfamfam-flags cn"></i>
-      <a href="//github.com/cipchk" target="_blank">卡色</a>出品
+      <i class="anticon anticon-copyright"></i> {{currentYear}} 
+      AbpAlain. <b>Version </b> {{versionText}}
     </global-footer>
   </div>
 </div>

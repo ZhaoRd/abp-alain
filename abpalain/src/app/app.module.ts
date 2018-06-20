@@ -81,9 +81,6 @@ export function StartupServiceFactory(
         });
       })
       .then(() => {
-        abp.message.success('测试提示');
-        
-        abp.notify.error('测试提醒');
       });
 }
 

@@ -20,6 +20,9 @@ export class AccountLanguagesComponent extends AppComponentBase
   ngOnInit() {
     this.languages = _.filter(this.localization.languages, l => !l.isDisabled);
     this.currentLanguage = this.localization.currentLanguage;
+    abp.log.debug({
+      "languages":this.languages
+    });
   }
 
   changeLanguage(languageName: string): void {

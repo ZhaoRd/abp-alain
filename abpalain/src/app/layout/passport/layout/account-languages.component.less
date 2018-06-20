@@ -1,4 +1,5 @@
-﻿.account-language-switch-list {
+﻿/*
+.account-language-switch-list {
   list-style: none;
   margin: 0;
   padding: 10px;
@@ -8,4 +9,28 @@
     margin: 0;
     padding: 0;
   }
+}
+*/
+
+:host {
+	::ng-deep {
+
+        .account-language-switch-list {
+            text-align: center;
+            list-style: none;
+            margin: 0px;
+            padding: 10px;
+        
+            > li {
+                display: inline;
+                margin: 0px;
+                padding: 0px;
+
+                i{
+                    display: inline-block;
+                }
+            }
+        }
+
+	}
 }

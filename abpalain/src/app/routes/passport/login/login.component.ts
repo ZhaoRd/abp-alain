@@ -1,5 +1,5 @@
 import { SettingsService } from '@delon/theme';
-import { Component, OnDestroy, Inject, Optional } from '@angular/core';
+import { Component, OnDestroy, Inject, Optional, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
@@ -13,19 +13,28 @@ import { ReuseTabService } from '@delon/abc';
 import { environment } from '@env/environment';
 import { StartupService } from '@core/startup/startup.service';
 
+import { AbpSessionService } from '@abp/session/abp-session.service';
+
+import { LoginService } from './login.service';
+
+import { AppComponentBase } from '@shared/app-component-base';
+
 @Component({
   selector: 'passport-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less'],
   providers: [SocialService],
 })
-export class UserLoginComponent implements OnDestroy {
+export class UserLoginComponent extends AppComponentBase implements OnDestroy {
   form: FormGroup;
   error = '';
   type = 0;
   loading = false;
 
+  submitting: boolean = false;
+
   constructor(
+    injector: Injector,
     fb: FormBuilder,
     private router: Router,
     public msg: NzMessageService,
@@ -37,7 +46,10 @@ export class UserLoginComponent implements OnDestroy {
     private reuseTabService: ReuseTabService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
     private startupSrv: StartupService,
+    public loginService: LoginService,
+    private _sessionService: AbpSessionService
   ) {
+    super(injector);
     this.form = fb.group({
       userName: [null, [Validators.required, Validators.minLength(5)]],
       password: [null, Validators.required],
@@ -82,9 +94,28 @@ export class UserLoginComponent implements OnDestroy {
     }, 1000);
   }
 
+  
+  get multiTenancySideIsTeanant(): boolean {
+    return this._sessionService.tenantId > 0;
+}
+
+get isSelfRegistrationAllowed(): boolean {
+    if (!this._sessionService.tenantId) {
+        return false;
+    }
+
+    return true;
+}
+
+
   // endregion
 
   submit() {
+    this.submitting = true;
+        this.loginService.authenticate(
+            () => this.submitting = false
+        );
+    /*
     this.error = '';
     if (this.type === 0) {
       this.userName.markAsDirty();
@@ -128,6 +159,7 @@ export class UserLoginComponent implements OnDestroy {
       // 否则直接跳转
       this.router.navigate(['/']);
     }, 1000);
+    */
   }
 
   // region: social

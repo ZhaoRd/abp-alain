@@ -26,15 +26,20 @@ Abp 使用的3.8.0
 
 # Screenshots
 
-#### Sample Dashboard Page
+#### 首页面板
 ![](_screenshots/alain-home.png)
 
 #### User Creation Modal
 ![](_screenshots/module-zero-core-template-ui-user-create-modal.png)
 
-#### Login Page
+#### 登陆页
 
 ![](_screenshots/alain-login.png)
+
+
+#### 我的公众号
+
+![](_screenshots/qrcode.png)
 
 # Documentation
 

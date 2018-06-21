@@ -4,7 +4,6 @@ import { TokenAuthServiceProxy, AuthenticateModel, AuthenticateResultModel, Exte
 import { UrlHelper } from '@shared/helpers/UrlHelper';
 import { AppConsts } from '@shared/AppConsts';
 
-import { MessageService } from '@abp/message/message.service';
 import { LogService } from '@abp/log/log.service';
 import { TokenService } from '@abp/auth/token.service';
 import { UtilsService } from '@abp/utils/utils.service';
@@ -23,7 +22,6 @@ export class LoginService {
         private _tokenAuthService: TokenAuthServiceProxy,
         private _router: Router,
         private _utilsService: UtilsService,
-        private _messageService: MessageService,
         private _tokenService: TokenService,
         private _logService: LogService
     ) {
@@ -52,7 +50,7 @@ export class LoginService {
             //Unexpected result!
 
             this._logService.warn('Unexpected authenticateResult!');
-            this._router.navigate(['account/login']);
+            this._router.navigate(['passport/login']);
         }
     }
 

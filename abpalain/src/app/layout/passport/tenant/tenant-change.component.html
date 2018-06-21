@@ -3,7 +3,6 @@
     <span>
       {{l("CurrentTenant")}}: <span *ngIf="tenancyName" title="{{name}}"><strong>{{tenancyName}}</strong></span>
       <span *ngIf="!tenancyName">{{l("NotSelected")}}</span> (<a href="javascript:void();" (click)="showChangeModal()">{{l("Change")}}</a>)
-      <!--<tenantChangeModal #tenantChangeModal></tenantChangeModal>-->
     </span>
   </div>
 </div>

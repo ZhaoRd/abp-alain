@@ -28,7 +28,11 @@ export class TenantChangeComponent extends AppComponentBase implements OnInit {
     return abp.multiTenancy.isEnabled;
   }
 
+  /**
+   * 显示切换租户弹出框
+   */
   showChangeModal(): void {
+    
     this._appModalService
       .show(TenantChangeModalComponent, {
         tenancyName: this.tenancyName,

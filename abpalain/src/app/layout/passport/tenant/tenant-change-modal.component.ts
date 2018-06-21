@@ -11,7 +11,6 @@ import { AppComponentBase } from '@shared/app-component-base';
 import { AccountServiceProxy } from '@shared/service-proxies/service-proxies';
 import { IsTenantAvailableInput } from '@shared/service-proxies/service-proxies';
 import { AppTenantAvailabilityState } from '@shared/AppEnums';
-// import { ModalDirective } from 'ngx-bootstrap';
 
 import { NzModalRef, NzModalService, NzMessageService } from 'ng-zorro-antd';
 
@@ -21,17 +20,15 @@ import { NzModalRef, NzModalService, NzMessageService } from 'ng-zorro-antd';
 })
 export class TenantChangeModalComponent extends AppComponentBase
   implements AfterViewInit {
-  /*
-    @ViewChild('tenantChangeModal') modal: ModalDirective;
-    
-    @ViewChild('modalContent') modalContent: ElementRef;
-    */
+  
   @ViewChild('tenancyNameInput') tenancyNameInput: ElementRef;
 
-  // tenancyName: string = '';
   active = false;
   saving = false;
 
+  /**
+   * 租主名，使用@Input 传递参数
+   */
   @Input() tenancyName = '';
 
   constructor(
@@ -46,20 +43,15 @@ export class TenantChangeModalComponent extends AppComponentBase
   show(tenancyName: string): void {
     this.tenancyName = tenancyName;
     this.active = true;
-    // this.modal.show();
   }
 
-  /*
-    onShown(): void {
-        this.tenancyNameInput.nativeElement.focus().select();
-        // $(this.tenancyNameInput.nativeElement).focus().select();
-    }
-    */
   ngAfterViewInit(): void {
-    // this.tenancyNameInput.nativeElement.focus().select();
-    // throw new Error("Method not implemented.");
   }
 
+  /**
+   * 保存操作，如果租户为空，则清空cookie租户信息，并重新加载当前页面
+   * 如果租户名正确，则保存当前租户名到cookie，并重新加载当前页面
+   */
   save(): void {
     if (!this.tenancyName) {
       abp.multiTenancy.setTenantIdCookie(undefined);
@@ -72,6 +64,7 @@ export class TenantChangeModalComponent extends AppComponentBase
     input.tenancyName = this.tenancyName;
 
     this.saving = true;
+    // 验证租户
     this._accountService
       .isTenantAvailable(input)
       .finally(() => {
@@ -96,13 +89,10 @@ export class TenantChangeModalComponent extends AppComponentBase
       });
   }
 
+  /**
+   * 关闭弹出窗
+   */
   close(): void {
-    // this.subject.destroy();
-    // this.subject.close();
     this.subject.destroy();
-    /*
-        this.active = false;
-        this.modal.hide();
-        */
   }
 }

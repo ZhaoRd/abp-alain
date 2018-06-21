@@ -20,11 +20,12 @@ export class AccountLanguagesComponent extends AppComponentBase
   ngOnInit() {
     this.languages = _.filter(this.localization.languages, l => !l.isDisabled);
     this.currentLanguage = this.localization.currentLanguage;
-    abp.log.debug({
-      "languages":this.languages
-    });
   }
 
+  /***
+   * 切换多语言
+   * 存储cookie值并刷新当前页面
+   */
   changeLanguage(languageName: string): void {
     abp.utils.setCookieValue(
       'Abp.Localization.CultureName',

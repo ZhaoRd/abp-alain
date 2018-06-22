@@ -8,6 +8,9 @@ import { LogService } from '@abp/log/log.service';
 import { TokenService } from '@abp/auth/token.service';
 import { UtilsService } from '@abp/utils/utils.service';
 
+/**
+ * 登录服务
+ */
 @Injectable()
 export class LoginService {
 
@@ -28,6 +31,10 @@ export class LoginService {
         this.clear();
     }
 
+    /**
+     * 登录验证
+     * @param finallyCallback 
+     */
     authenticate(finallyCallback?: () => void): void {
         finallyCallback = finallyCallback || (() => { });
 
@@ -39,6 +46,10 @@ export class LoginService {
             });
     }
 
+    /**
+     * 处理验证结果
+     * @param authenticateResult 验证结果
+     */
     private processAuthenticateResult(authenticateResult: AuthenticateResultModel) {
         this.authenticateResult = authenticateResult;
 
@@ -54,6 +65,13 @@ export class LoginService {
         }
     }
 
+    /**
+     * 保存登录信息到cookie
+     * @param accessToken 
+     * @param encryptedAccessToken 
+     * @param expireInSeconds 
+     * @param rememberMe 
+     */
     private login(accessToken: string, encryptedAccessToken: string, expireInSeconds: number, rememberMe?: boolean): void {
 
         var tokenExpireDate = rememberMe ? (new Date(new Date().getTime() + 1000 * expireInSeconds)) : undefined;

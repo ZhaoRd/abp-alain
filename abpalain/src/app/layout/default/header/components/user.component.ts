@@ -1,7 +1,9 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject,OnInit,Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { SettingsService } from '@delon/theme';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
+import { AppComponentBase } from '@shared/app-component-base';
+import { AppAuthService } from '@shared/auth/app-auth.service';
 
 @Component({
   selector: 'header-user',
@@ -9,7 +11,7 @@ import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
   <nz-dropdown nzPlacement="bottomRight">
     <div class="item d-flex align-items-center px-sm" nz-dropdown>
       <nz-avatar [nzSrc]="settings.user.avatar" nzSize="small" class="mr-sm"></nz-avatar>
-      {{settings.user.name}}
+      {{shownLoginName}}
     </div>
     <div nz-menu class="width-sm">
       <div nz-menu-item [nzDisabled]="true"><i class="anticon anticon-user mr-sm"></i>个人中心</div>
@@ -20,15 +22,29 @@ import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
   </nz-dropdown>
   `,
 })
-export class HeaderUserComponent {
+export class HeaderUserComponent  extends AppComponentBase implements OnInit{
+
+  shownLoginName: string = "";
+
   constructor(
+    injector: Injector,
+    private _authService: AppAuthService,
     public settings: SettingsService,
     private router: Router,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
-  ) {}
+  ) {
+
+    super(injector);
+
+  }
+
+  ngOnInit() {
+    this.shownLoginName = this.appSession.getShownLoginName();
+}
 
   logout() {
-    this.tokenService.clear();
-    this.router.navigateByUrl(this.tokenService.login_url);
+    this._authService.logout();
+    //this.tokenService.clear();
+    //this.router.navigateByUrl(this.tokenService.login_url);
   }
 }

@@ -27,6 +27,9 @@ export class UserLoginComponent extends AppComponentBase implements OnDestroy {
   type = 0;
   loading = false;
 
+  /**
+   * 是否登录中
+   */
   submitting: boolean = false;
 
   constructor(
@@ -62,8 +65,6 @@ export class UserLoginComponent extends AppComponentBase implements OnDestroy {
         return this.form.controls.captcha;
       }
 
-  // region: get captcha
-
   count = 0;
   interval$: any;
 
@@ -75,11 +76,16 @@ export class UserLoginComponent extends AppComponentBase implements OnDestroy {
     }, 1000);
   }
 
-  
+  /**
+   * 多租户
+   */
   get multiTenancySideIsTeanant(): boolean {
     return this._sessionService.tenantId > 0;
   }
 
+  /**
+   * 允许注册
+   */
   get isSelfRegistrationAllowed(): boolean {
     if (!this._sessionService.tenantId) {
         return false;

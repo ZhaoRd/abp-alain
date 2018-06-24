@@ -43,6 +43,27 @@
           ]
         },
         {
+          "text": "租户",
+          "link": "/app/tenants",
+          "icon": "icon-grid",
+          "i18n":"tenants-list"
+        },
+        {
+          "text": "用户",
+          "link": "/app/users",
+          "icon": "icon-grid"
+        },
+        {
+          "text": "角色",
+          "link": "/app/roles",
+          "icon": "icon-grid"
+        },
+        {
+          "text": "关于我们",
+          "link": "/app/about",
+          "icon": "icon-grid"
+        },
+        {
           "text": "快捷菜单",
           "i18n": "shortcut",
           "icon": "icon-rocket",

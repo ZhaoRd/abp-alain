@@ -9,6 +9,8 @@ import * as df_zh_cn from 'date-fns/locale/zh_cn';
 import { TranslateService } from '@ngx-translate/core';
 import { SettingsService, AlainI18NService } from '@delon/theme';
 
+import { AppConsts } from '@shared/AppConsts';
+
 @Injectable()
 export class I18NService implements AlainI18NService {
   private _default = 'zh-CN';
@@ -58,6 +60,7 @@ export class I18NService implements AlainI18NService {
   }
   /** 翻译 */
   fanyi(key: string) {
+ 
     return this.translate.instant(key);
   }
   /** 默认语言 */

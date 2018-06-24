@@ -22,6 +22,9 @@ import { Exception404Component } from './exception/404.component';
 import { Exception500Component } from './exception/500.component';
 
 import { AppRouteGuard } from '@shared/auth/auth-route-guard';
+
+import { TenantsModule } from './tenants/tenants.module';
+
 /*
 ,
         canActivate: [AppRouteGuard],
@@ -54,6 +57,14 @@ const routes: Routes = [
       { path: 'delon', loadChildren: './delon/delon.module#DelonModule' },
       { path: 'extras', loadChildren: './extras/extras.module#ExtrasModule' },
       { path: 'pro', loadChildren: './pro/pro.module#ProModule' },
+    ],
+  },
+  // 租户
+  {
+    path: 'app',
+    component: LayoutDefaultComponent,
+    children: [
+      { path: 'tenants', loadChildren: './tenants/tenants.module#TenantsModule' },
     ],
   },
   // 全屏布局

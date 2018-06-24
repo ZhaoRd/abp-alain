@@ -1,7 +1,22 @@
 <page-header>
 
 </page-header>
-<nz-card>
+
+<ng-template #extraTemplate>
+    <!--<a>More</a>-->
+    <nz-dropdown [nzTrigger]="'click'">
+        <a nz-dropdown>
+          More<i class="anticon anticon-down"></i>
+        </a>
+        <ul nz-menu>
+          <li nz-menu-item (click)="load(pageInfo.pageIndex)">刷新</li>
+        </ul>
+      </nz-dropdown>
+  </ng-template>
+
+<nz-card  [nzExtra]="extraTemplate">
+
+    
   
   <div class="my-sm">
     <button (click)="add()" nz-button nzType="primary">新建</button>
@@ -16,16 +31,16 @@
   <thead nz-thead>
       <tr>
           <th nz-th>
-              <span>租户名称</span>
+              <span>{{l("TenancyName")}}</span>
           </th>
           <th nz-th>
-              <span>租户名</span>
+              <span>{{l("Name")}}</span>
           </th>
           <th nz-th>
-              <span>激活</span>
+              <span>{{l('IsActive')}}</span>
           </th>
           <th nz-th>
-              <span>操作</span>
+              <span>{{l('Actions')}}</span>
           </th>
 
       </tr>

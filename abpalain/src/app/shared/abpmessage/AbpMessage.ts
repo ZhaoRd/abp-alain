@@ -77,8 +77,14 @@ export class AbpMessage {
                 this.modalService.confirm({
                     // nzTitle: '<i>Do you Want to delete these items?</i>',
                      nzContent: message,
-                     nzOnOk: () => reverse(true),
-                     nzOnCancel: () => reverse(false)
+                     nzOnOk: () => {
+                         console.log('ok');
+                         reverse(true);
+                     },
+                     nzOnCancel: () => {
+                        console.log('cancel');
+                        reverse(false);
+                     }
                    });
 
             })

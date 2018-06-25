@@ -5,8 +5,12 @@ import { SFSchema } from '@delon/form';
 import { AppComponentBase } from '@shared/app-component-base';
 
 import { PageInfo } from '@shared/paging/PageInfo';
+import { AppModalService } from '@shared/modal/appModalService';
 
 import { TenantServiceProxy, TenantDto, PagedResultDtoOfTenantDto } from '@shared/service-proxies/service-proxies';
+
+import { CreateTenantModalComponent } from './create-tenant-modal.component';
+import { EditTenantModalComponent } from './edit-tenant-modal.component';
 
 @Component({
   selector: 'tenants-list',
@@ -15,7 +19,7 @@ import { TenantServiceProxy, TenantDto, PagedResultDtoOfTenantDto } from '@share
 export class TenantsListComponent extends AppComponentBase implements OnInit {
 
 
-  pageInfo:PageInfo;
+  pageInfo: PageInfo;
 
   list = [];
   loading = false;
@@ -24,7 +28,8 @@ export class TenantsListComponent extends AppComponentBase implements OnInit {
     injector: Injector,
     private http: _HttpClient,
     private modal: ModalHelper,
-    private _tenantService: TenantServiceProxy) {
+    private _tenantService: TenantServiceProxy,
+    private _appModalService: AppModalService) {
     super(injector);
 
     this.pageInfo = new PageInfo();
@@ -34,9 +39,8 @@ export class TenantsListComponent extends AppComponentBase implements OnInit {
   load(pi?: number) {
     if (typeof pi !== 'undefined') {
       this.pageInfo.pageIndex = pi || 1;
-      this.getTenants();
-      return;
     }
+    this.getTenants();
   }
 
   getTenants() {
@@ -49,6 +53,7 @@ export class TenantsListComponent extends AppComponentBase implements OnInit {
         this.loading = false;
       })
       .subscribe((result: PagedResultDtoOfTenantDto) => {
+        abp.log.debug(result);
         this.list = result.items;
         this.pageInfo.total = result.totalCount;
       });
@@ -63,6 +68,34 @@ export class TenantsListComponent extends AppComponentBase implements OnInit {
 
   add() {
 
+    this._appModalService.show(CreateTenantModalComponent, { tenantId: null }).subscribe((res) => {
+
+      this.load();
+    });
+    // this.modal.open(TenantCreateOrUpdateModalComponent,{tenantId:null});
+  }
+
+  edit(tenantId) {
+    this._appModalService.show(EditTenantModalComponent, { tenantId: tenantId })
+      .subscribe(res => {
+        this.load(this.pageInfo.pageIndex);
+      });
+  }
+
+  delete(tenant: TenantDto): void {
+    abp.message.confirm(
+      "Delete tenant '" + tenant.name + "'?"
+    ).then((result: boolean) => {
+      console.log(result);
+      if (result) {
+        this._tenantService.delete(tenant.id)
+          .finally(() => {
+            abp.notify.info("Deleted tenant: " + tenant.name);
+            this.load();
+          })
+          .subscribe(() => { });
+      }
+    });
   }
 
 }

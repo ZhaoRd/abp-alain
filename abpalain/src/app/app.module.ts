@@ -156,21 +156,3 @@ export function getCurrentLanguage(): string {
   bootstrap: [AppComponent],
 })
 export class AppModule {}
-
-
-        /*
-      abp.message.confirm("确认删除").then((res)=>{
-        abp.notify.info(res);
-      });
-      
-      abp.message.info('测试逐渐');
-      abp.message.success('测试逐渐');
-      abp.message.warn('测试逐渐');
-      abp.message.error('测试逐渐');
-      */
-        /*
-     abp.notify.error('通知');
-     abp.notify.info('通知');
-     abp.notify.warn('通知');
-     abp.notify.success('通知');
-     */

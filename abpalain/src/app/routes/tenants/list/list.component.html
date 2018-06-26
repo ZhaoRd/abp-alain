@@ -3,7 +3,6 @@
 </page-header>
 
 <ng-template #extraTemplate>
-    <!--<a>More</a>-->
     <nz-dropdown [nzTrigger]="'click'">
         <a nz-dropdown>
           More<i class="anticon anticon-down"></i>
@@ -21,9 +20,7 @@
   <div class="my-sm">
     <button (click)="add()" nz-button nzType="primary">新建</button>
   </div>
-  <!--
-  <simple-table #st [data]="url" [columns]="columns" [extraParams]="params"></simple-table>
--->
+  
   <nz-table #tenantListTable 
   [nzFrontPagination]="false"
   [nzData]="list" 

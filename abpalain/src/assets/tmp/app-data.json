@@ -51,7 +51,8 @@
         {
           "text": "用户",
           "link": "/app/users",
-          "icon": "icon-grid"
+          "icon": "icon-grid",
+          "i18n":"users"
         },
         {
           "text": "角色",

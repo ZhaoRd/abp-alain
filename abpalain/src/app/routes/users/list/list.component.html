@@ -1,0 +1,112 @@
+<page-header></page-header>
+
+<ng-template #extraTemplate>
+  <nz-dropdown [nzTrigger]="'click'">
+      <a nz-dropdown>
+        More<i class="anticon anticon-down"></i>
+      </a>
+      <ul nz-menu>
+        <li nz-menu-item (click)="load(pageInfo.pageIndex)">刷新</li>
+      </ul>
+    </nz-dropdown>
+</ng-template>
+
+<nz-card  [nzExtra]="extraTemplate">
+
+  
+
+<div class="my-sm">
+  <button (click)="add()" nz-button nzType="primary">新建</button>
+</div>
+
+<nz-table #tenantListTable 
+[nzFrontPagination]="false"
+[nzData]="list" 
+[nzLoading]="loading" 
+[nzTotal]="pageInfo.total" 
+[(nzPageIndex)]="pageInfo.pageIndex"
+[(nzPageSize)]="pageInfo.pageSize" 
+(nzPageIndexChange)="load()" 
+(nzPageSizeChange)="load()"
+[nzShowSizeChanger]="true"
+>
+<thead nz-thead>
+    <tr>
+        <th nz-th>
+            <span>序号</span>
+        </th>
+        <th nz-th>
+            <span>{{l("UserName")}}</span>
+        </th>
+        <th nz-th>
+            <span>{{l("FullName")}}</span>
+        </th>
+        <th nz-th>
+          <span>{{l("EmailAddress")}}</span>
+      </th>
+        <th nz-th>
+            <span>{{l('IsActive')}}</span>
+        </th>
+        <th nz-th>
+            <span>{{l('Actions')}}</span>
+        </th>
+
+    </tr>
+</thead>
+<tbody nz-tbody>
+    <tr nz-tbody-tr *ngFor="let data of tenantListTable.data;let i=index;">
+       
+        <td nz-td>
+            <span>
+              {{(i+1)+pageInfo.skipCount}}
+            </span>
+
+        </td>
+        <td nz-td>
+            <span>
+                {{data.userName}}
+            </span>
+
+        </td>
+        <td nz-td>
+            <span>
+                {{data.fullName}}
+            </span>
+
+        </td>
+        <td nz-td>
+          <span>
+              {{data.emailAddress}}
+          </span>
+
+      </td>
+        <td nz-td>
+
+            <nz-badge [nzStatus]="data.isActive?'success':'error'" [nzText]="data.isActive?'是':'否'"></nz-badge>
+
+        </td>
+        
+        <td nz-td>
+
+          <nz-dropdown>
+              <a class="ant-dropdown-link" nz-dropdown>
+                  <i class="anticon anticon-setting"></i>
+                  操作
+                  <i class="anticon anticon-down"></i>
+              </a>
+              <ul nz-menu>
+                  <li nz-menu-item (click)="edit(data.id)">修改</li>
+                  <li nz-menu-item (click)="delete(data)">
+                      删除
+                  </li>
+
+              </ul>
+          </nz-dropdown>
+      </td>
+
+    </tr>
+</tbody>
+</nz-table>
+
+
+</nz-card>

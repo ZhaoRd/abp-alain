@@ -23,8 +23,6 @@ import { Exception500Component } from './exception/500.component';
 
 import { AppRouteGuard } from '@shared/auth/auth-route-guard';
 
-import { TenantsModule } from './tenants/tenants.module';
-
 /*
 ,
         canActivate: [AppRouteGuard],
@@ -65,6 +63,7 @@ const routes: Routes = [
     component: LayoutDefaultComponent,
     children: [
       { path: 'tenants', loadChildren: './tenants/tenants.module#TenantsModule' },
+      { path: 'users', loadChildren: './users/users.module#UsersModule' },
     ],
   },
   // 全屏布局

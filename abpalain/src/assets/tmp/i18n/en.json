@@ -66,5 +66,6 @@
   "pro-register": "Register",
   "pro-register-result": "Register Result",
   "tenants-list":"Tenants",
-  "users":"Users"
+  "users":"Users",
+  "roles":"Roles"
 }

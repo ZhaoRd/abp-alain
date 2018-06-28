@@ -19,7 +19,7 @@ export class UsersCreateUserComponent extends AppComponentBase implements OnInit
   roles: RoleDto[] = null;
   saving: boolean = false;
 
-  checkOptionsOne = [];
+  checkOptionsOne:Array<any> = [];
 
   constructor(injector: Injector,
     private _userService: UserServiceProxy,
@@ -64,7 +64,8 @@ export class UsersCreateUserComponent extends AppComponentBase implements OnInit
 
     this.saving = true;
 
-    var roles = _.map( _.filter(this.checkOptionsOne,c=>c.checked),c=>c.value);
+    const selectRoles = _.filter(this.checkOptionsOne,c=>c.checked);
+    const roles = _.map( selectRoles,'value');
    
 
     this.user.roleNames = roles;

@@ -66,5 +66,6 @@
   "pro-register": "注册",
   "pro-register-result": "注册结果",
   "tenants-list":"租户管理",
-  "users":"用户管理"
+  "users":"用户管理",
+  "roles":"角色管理"
 }

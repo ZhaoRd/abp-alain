@@ -57,12 +57,8 @@
         {
           "text": "角色",
           "link": "/app/roles",
-          "icon": "icon-grid"
-        },
-        {
-          "text": "关于我们",
-          "link": "/app/about",
-          "icon": "icon-grid"
+          "icon": "icon-grid",
+          "i18n":"roles"
         },
         {
           "text": "快捷菜单",

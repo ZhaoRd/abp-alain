@@ -74,6 +74,8 @@ export class UsersEditUserComponent extends AppComponentBase implements OnInit {
   }
 
   
+
+  
   /**
    * 保存操作
    */
@@ -81,7 +83,7 @@ export class UsersEditUserComponent extends AppComponentBase implements OnInit {
 
     this.saving = true;
 
-    var roles = _.map( _.filter(this.checkOptionsOne,c=>c.checked),c=>c.value);
+    var roles = _.map( _.filter(this.checkOptionsOne,c=>c.checked),'value');
     
     this.user.roleNames = roles;
 

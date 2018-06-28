@@ -45,8 +45,8 @@ Abp 使用的3.8.0
 #### 首页面板
 ![](_screenshots/alain-home.png)
 
-#### User Creation Modal
-![](_screenshots/module-zero-core-template-ui-user-create-modal.png)
+#### 创建用户弹出框
+![](_screenshots/ui-user-create-modal.png)
 
 #### 登陆页
 

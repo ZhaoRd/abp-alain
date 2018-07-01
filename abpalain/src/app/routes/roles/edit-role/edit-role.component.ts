@@ -76,13 +76,10 @@ import * as _ from 'lodash';
 
   
   save(): void {
-    console.log(this.checkOptionsOne);
     const selected = _.filter(this.checkOptionsOne,c=>c.checked);
-    console.log(selected);
     const permissions = _.map( selected,'value');
     
         this.role.permissions = permissions;
-        console.log(this.role);
         this.saving = true;
         this._roleService.update(this.role)
             .finally(() => { this.saving = false; })

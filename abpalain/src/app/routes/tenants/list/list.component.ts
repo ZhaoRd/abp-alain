@@ -86,7 +86,6 @@ export class TenantsListComponent extends AppComponentBase implements OnInit {
     abp.message.confirm(
       "Delete tenant '" + tenant.name + "'?"
     ).then((result: boolean) => {
-      console.log(result);
       if (result) {
         this._tenantService.delete(tenant.id)
           .finally(() => {

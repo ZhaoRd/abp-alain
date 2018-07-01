@@ -44,7 +44,5 @@ export class HeaderUserComponent  extends AppComponentBase implements OnInit{
 
   logout() {
     this._authService.logout();
-    //this.tokenService.clear();
-    //this.router.navigateByUrl(this.tokenService.login_url);
   }
 }

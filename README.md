@@ -4,6 +4,8 @@ Abp 结合前端 ng-alain的项目
 
 Abp 使用的3.8.0
 
+[ABP & NG-ALAIN](https://www.jianshu.com/p/589af988637c)
+
 
 #  进展
 

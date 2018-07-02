@@ -23,8 +23,9 @@ registerLocaleData(localeZh);
 // i18n
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { ALAIN_I18N_TOKEN } from '@delon/theme';
+import { MenuService, ALAIN_I18N_TOKEN } from '@delon/theme';
 import { I18NService } from '@core/i18n/i18n.service';
+
 // third
 import { UEditorModule } from 'ngx-ueditor';
 import { NgxTinymceModule } from 'ngx-tinymce';
@@ -43,10 +44,15 @@ import { AppConsts } from '@shared/AppConsts';
 
 import { AbpMessage } from '@shared/abpmessage/AbpMessage';
 
+import * as _ from 'lodash';
+
 // 加载i18n语言文件
 export function I18nHttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `assets/tmp/i18n/`, '.json');
 }
+
+
+
 
 export function StartupServiceFactory(
   injector: Injector,
@@ -59,16 +65,16 @@ export function StartupServiceFactory(
         // 初始化消息类通知
         const abpMessage = injector.get(AbpMessage);
         abpMessage.init();
-      
+
         // 初始化abp
         return new Promise<boolean>((resolve, reject) => {
           AppPreBootstrap.run(() => {
             abp.event.trigger('abp.dynamicScriptsInitialized');
-      
+
             const appSessionService: AppSessionService = injector.get(
               AppSessionService,
             );
-      
+
             appSessionService.init().then(
               result => {
                 resolve(result);
@@ -81,11 +87,35 @@ export function StartupServiceFactory(
         });
       })
       .then(() => {
+
+        /**
+        * 根据权限修改菜单是否显示
+        * @param menus 
+        */
+        function checkMenuPerssion(menus) {
+          _.forEach(menus, (item) => {
+
+            item.hide = item.permissions && !abp.auth.isGranted(item.permissions);
+
+            if (item.children != undefined && item.children.length > 0) {
+              checkMenuPerssion(item.children);
+            }
+          });
+        }
+
+        
+        // 验证菜单权限
+        var menuService: MenuService = injector.get(MenuService);
+        var menus = menuService.menus;
+        
+        checkMenuPerssion(menus);
+
+        // 需要重新设置菜单
+        menuService.clear();
+        menuService.add(menus);
+
       });
 }
-
-
-
 
 
 export function getRemoteServiceBaseUrl(): string {
@@ -155,4 +185,4 @@ export function getCurrentLanguage(): string {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

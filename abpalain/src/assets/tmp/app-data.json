@@ -46,19 +46,22 @@
           "text": "租户",
           "link": "/app/tenants",
           "icon": "icon-grid",
-          "i18n":"tenants-list"
+          "i18n":"tenants-list",
+          "permissions":"Pages.Tenants"
         },
         {
           "text": "用户",
           "link": "/app/users",
           "icon": "icon-grid",
-          "i18n":"users"
+          "i18n":"users",
+          "permissions":"Pages.Users"
         },
         {
           "text": "角色",
           "link": "/app/roles",
           "icon": "icon-grid",
-          "i18n":"roles"
+          "i18n":"roles",
+          "permissions":"Pages.Roles"
         },
         {
           "text": "快捷菜单",

@@ -64,6 +64,12 @@
           "permissions":"Pages.Roles"
         },
         {
+          "text": "动态表单",
+          "link": "/app/dyforms",
+          "icon": "icon-grid",
+          "i18n":"dyforms"
+        },
+        {
           "text": "快捷菜单",
           "i18n": "shortcut",
           "icon": "icon-rocket",

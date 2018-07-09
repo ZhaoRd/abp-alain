@@ -65,6 +65,7 @@ const routes: Routes = [
       { path: 'tenants', loadChildren: './tenants/tenants.module#TenantsModule' },
       { path: 'users', loadChildren: './users/users.module#UsersModule' },
       { path: 'roles', loadChildren: './roles/roles.module#RolesModule' },
+      { path: 'dyforms', loadChildren: './dyformdemo/dyformdemo.module#DyformdemoModule' },
     ],
   },
   // 全屏布局

@@ -202,12 +202,80 @@ export class ConfigurationServiceProxy {
             return blobToText(responseBlob).flatMap(_responseText => {
             return Observable.of<void>(<any>null);
             });
+        } else if (status === 401) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class DynamicFormServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getDynamicFormForEdit(): Observable<GetDynamicFormForEditDto> {
+        let url_ = this.baseUrl + "/api/services/app/DynamicForm/GetDynamicFormForEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetDynamicFormForEdit(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetDynamicFormForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetDynamicFormForEditDto>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<GetDynamicFormForEditDto>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetDynamicFormForEdit(response: HttpResponseBase): Observable<GetDynamicFormForEditDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetDynamicFormForEditDto.fromJS(resultData200) : new GetDynamicFormForEditDto();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<GetDynamicFormForEditDto>(<any>null);
     }
 }
 
@@ -351,13 +419,12 @@ export class RoleServiceProxy {
     }
 
     /**
+     * @id (optional) 
      * @return Success
      */
-    delete(id: number): Observable<void> {
+    delete(id: number | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Role/Delete?";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined and cannot be null.");
-        else
+        if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -471,13 +538,12 @@ export class RoleServiceProxy {
     }
 
     /**
+     * @id (optional) 
      * @return Success
      */
-    get(id: number): Observable<RoleDto> {
+    get(id: number | null | undefined): Observable<RoleDto> {
         let url_ = this.baseUrl + "/api/services/app/Role/Get?";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined and cannot be null.");
-        else
+        if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -535,17 +601,15 @@ export class RoleServiceProxy {
     }
 
     /**
+     * @skipCount (optional) 
+     * @maxResultCount (optional) 
      * @return Success
      */
-    getAll(skipCount: number, maxResultCount: number): Observable<PagedResultDtoOfRoleDto> {
+    getAll(skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfRoleDto> {
         let url_ = this.baseUrl + "/api/services/app/Role/GetAll?";
-        if (skipCount === undefined || skipCount === null)
-            throw new Error("The parameter 'skipCount' must be defined and cannot be null.");
-        else
+        if (skipCount !== undefined)
             url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount === undefined || maxResultCount === null)
-            throw new Error("The parameter 'maxResultCount' must be defined and cannot be null.");
-        else
+        if (maxResultCount !== undefined)
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -743,13 +807,12 @@ export class TenantServiceProxy {
     }
 
     /**
+     * @id (optional) 
      * @return Success
      */
-    delete(id: number): Observable<void> {
+    delete(id: number | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/Delete?";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined and cannot be null.");
-        else
+        if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -803,13 +866,12 @@ export class TenantServiceProxy {
     }
 
     /**
+     * @id (optional) 
      * @return Success
      */
-    get(id: number): Observable<TenantDto> {
+    get(id: number | null | undefined): Observable<TenantDto> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/Get?";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined and cannot be null.");
-        else
+        if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -867,17 +929,15 @@ export class TenantServiceProxy {
     }
 
     /**
+     * @skipCount (optional) 
+     * @maxResultCount (optional) 
      * @return Success
      */
-    getAll(skipCount: number, maxResultCount: number): Observable<PagedResultDtoOfTenantDto> {
+    getAll(skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfTenantDto> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/GetAll?";
-        if (skipCount === undefined || skipCount === null)
-            throw new Error("The parameter 'skipCount' must be defined and cannot be null.");
-        else
+        if (skipCount !== undefined)
             url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount === undefined || maxResultCount === null)
-            throw new Error("The parameter 'maxResultCount' must be defined and cannot be null.");
-        else
+        if (maxResultCount !== undefined)
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1319,13 +1379,12 @@ export class UserServiceProxy {
     }
 
     /**
+     * @id (optional) 
      * @return Success
      */
-    delete(id: number): Observable<void> {
+    delete(id: number | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/User/Delete?";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined and cannot be null.");
-        else
+        if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1499,13 +1558,12 @@ export class UserServiceProxy {
     }
 
     /**
+     * @id (optional) 
      * @return Success
      */
-    get(id: number): Observable<UserDto> {
+    get(id: number | null | undefined): Observable<UserDto> {
         let url_ = this.baseUrl + "/api/services/app/User/Get?";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined and cannot be null.");
-        else
+        if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1563,17 +1621,15 @@ export class UserServiceProxy {
     }
 
     /**
+     * @skipCount (optional) 
+     * @maxResultCount (optional) 
      * @return Success
      */
-    getAll(skipCount: number, maxResultCount: number): Observable<PagedResultDtoOfUserDto> {
+    getAll(skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfUserDto> {
         let url_ = this.baseUrl + "/api/services/app/User/GetAll?";
-        if (skipCount === undefined || skipCount === null)
-            throw new Error("The parameter 'skipCount' must be defined and cannot be null.");
-        else
+        if (skipCount !== undefined)
             url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount === undefined || maxResultCount === null)
-            throw new Error("The parameter 'maxResultCount' must be defined and cannot be null.");
-        else
+        if (maxResultCount !== undefined)
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1868,6 +1924,562 @@ export class ChangeUiThemeInput implements IChangeUiThemeInput {
 
 export interface IChangeUiThemeInput {
     theme: string;
+}
+
+export class GetDynamicFormForEditDto implements IGetDynamicFormForEditDto {
+    dynamicForm: DynamicFormDto | undefined;
+    schema: JsonSchema4 | undefined;
+
+    constructor(data?: IGetDynamicFormForEditDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.dynamicForm = data["dynamicForm"] ? DynamicFormDto.fromJS(data["dynamicForm"]) : <any>undefined;
+            this.schema = data["schema"] ? JsonSchema4.fromJS(data["schema"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetDynamicFormForEditDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetDynamicFormForEditDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["dynamicForm"] = this.dynamicForm ? this.dynamicForm.toJSON() : <any>undefined;
+        data["schema"] = this.schema ? this.schema.toJSON() : <any>undefined;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new GetDynamicFormForEditDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IGetDynamicFormForEditDto {
+    dynamicForm: DynamicFormDto | undefined;
+    schema: JsonSchema4 | undefined;
+}
+
+export class DynamicFormDto implements IDynamicFormDto {
+    name: string;
+    age: number | undefined;
+    wages: number | undefined;
+    gender: DynamicFormDtoGender | undefined;
+
+    constructor(data?: IDynamicFormDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.age = data["age"];
+            this.wages = data["wages"];
+            this.gender = data["gender"];
+        }
+    }
+
+    static fromJS(data: any): DynamicFormDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new DynamicFormDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["age"] = this.age;
+        data["wages"] = this.wages;
+        data["gender"] = this.gender;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new DynamicFormDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IDynamicFormDto {
+    name: string;
+    age: number | undefined;
+    wages: number | undefined;
+    gender: DynamicFormDtoGender | undefined;
+}
+
+export class JsonSchema4 implements IJsonSchema4 {
+    $schema: string | undefined;
+    id: string | undefined;
+    title: string | undefined;
+    type: any | undefined;
+    discriminator: any | undefined;
+    description: string | undefined;
+    format: string | undefined;
+    default: any | undefined;
+    multipleOf: number | undefined;
+    maximum: number | undefined;
+    minimum: number | undefined;
+    maxLength: number | undefined;
+    minLength: number | undefined;
+    pattern: string | undefined;
+    maxItems: number | undefined;
+    minItems: number | undefined;
+    uniqueItems: boolean | undefined;
+    maxProperties: number | undefined;
+    minProperties: number | undefined;
+    xDeprecated: boolean | undefined;
+    xAbstract: boolean | undefined;
+    xNullable: boolean | undefined;
+    xExample: any | undefined;
+    xEnumFlags: boolean | undefined;
+    xml: JsonXmlObject | undefined;
+    not: JsonSchema4 | undefined;
+    exclusiveMaximum: any | undefined;
+    exclusiveMinimum: any | undefined;
+    additionalItems: any | undefined;
+    additionalProperties: any | undefined;
+    items: any | undefined;
+    required: string[] | undefined;
+    properties: { [key: string] : JsonSchema4; } | undefined;
+    patternProperties: { [key: string] : JsonSchema4; } | undefined;
+    definitions: { [key: string] : JsonSchema4; } | undefined;
+    xEnumNames: string[] | undefined;
+    enum: any[] | undefined;
+    allOf: JsonSchema4[] | undefined;
+    anyOf: JsonSchema4[] | undefined;
+    oneOf: JsonSchema4[] | undefined;
+    __referencePath: string | undefined;
+
+    constructor(data?: IJsonSchema4) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.$schema = data["$schema"];
+            this.id = data["id"];
+            this.title = data["title"];
+            if (data["type"]) {
+                this.type = {};
+                for (let key in data["type"]) {
+                    if (data["type"].hasOwnProperty(key))
+                        this.type[key] = data["type"][key];
+                }
+            }
+            if (data["discriminator"]) {
+                this.discriminator = {};
+                for (let key in data["discriminator"]) {
+                    if (data["discriminator"].hasOwnProperty(key))
+                        this.discriminator[key] = data["discriminator"][key];
+                }
+            }
+            this.description = data["description"];
+            this.format = data["format"];
+            if (data["default"]) {
+                this.default = {};
+                for (let key in data["default"]) {
+                    if (data["default"].hasOwnProperty(key))
+                        this.default[key] = data["default"][key];
+                }
+            }
+            this.multipleOf = data["multipleOf"];
+            this.maximum = data["maximum"];
+            this.minimum = data["minimum"];
+            this.maxLength = data["maxLength"];
+            this.minLength = data["minLength"];
+            this.pattern = data["pattern"];
+            this.maxItems = data["maxItems"];
+            this.minItems = data["minItems"];
+            this.uniqueItems = data["uniqueItems"];
+            this.maxProperties = data["maxProperties"];
+            this.minProperties = data["minProperties"];
+            this.xDeprecated = data["x-deprecated"];
+            this.xAbstract = data["x-abstract"];
+            this.xNullable = data["x-nullable"];
+            if (data["x-example"]) {
+                this.xExample = {};
+                for (let key in data["x-example"]) {
+                    if (data["x-example"].hasOwnProperty(key))
+                        this.xExample[key] = data["x-example"][key];
+                }
+            }
+            this.xEnumFlags = data["x-enumFlags"];
+            this.xml = data["xml"] ? JsonXmlObject.fromJS(data["xml"]) : <any>undefined;
+            this.not = data["not"] ? JsonSchema4.fromJS(data["not"]) : <any>undefined;
+            if (data["exclusiveMaximum"]) {
+                this.exclusiveMaximum = {};
+                for (let key in data["exclusiveMaximum"]) {
+                    if (data["exclusiveMaximum"].hasOwnProperty(key))
+                        this.exclusiveMaximum[key] = data["exclusiveMaximum"][key];
+                }
+            }
+            if (data["exclusiveMinimum"]) {
+                this.exclusiveMinimum = {};
+                for (let key in data["exclusiveMinimum"]) {
+                    if (data["exclusiveMinimum"].hasOwnProperty(key))
+                        this.exclusiveMinimum[key] = data["exclusiveMinimum"][key];
+                }
+            }
+            if (data["additionalItems"]) {
+                this.additionalItems = {};
+                for (let key in data["additionalItems"]) {
+                    if (data["additionalItems"].hasOwnProperty(key))
+                        this.additionalItems[key] = data["additionalItems"][key];
+                }
+            }
+            if (data["additionalProperties"]) {
+                this.additionalProperties = {};
+                for (let key in data["additionalProperties"]) {
+                    if (data["additionalProperties"].hasOwnProperty(key))
+                        this.additionalProperties[key] = data["additionalProperties"][key];
+                }
+            }
+            if (data["items"]) {
+                this.items = {};
+                for (let key in data["items"]) {
+                    if (data["items"].hasOwnProperty(key))
+                        this.items[key] = data["items"][key];
+                }
+            }
+            if (data["required"] && data["required"].constructor === Array) {
+                this.required = [];
+                for (let item of data["required"])
+                    this.required.push(item);
+            }
+            if (data["properties"]) {
+                this.properties = {};
+                for (let key in data["properties"]) {
+                    if (data["properties"].hasOwnProperty(key))
+                        this.properties[key] = data["properties"][key] ? JsonSchema4.fromJS(data["properties"][key]) : new JsonSchema4();
+                }
+            }
+            if (data["patternProperties"]) {
+                this.patternProperties = {};
+                for (let key in data["patternProperties"]) {
+                    if (data["patternProperties"].hasOwnProperty(key))
+                        this.patternProperties[key] = data["patternProperties"][key] ? JsonSchema4.fromJS(data["patternProperties"][key]) : new JsonSchema4();
+                }
+            }
+            if (data["definitions"]) {
+                this.definitions = {};
+                for (let key in data["definitions"]) {
+                    if (data["definitions"].hasOwnProperty(key))
+                        this.definitions[key] = data["definitions"][key] ? JsonSchema4.fromJS(data["definitions"][key]) : new JsonSchema4();
+                }
+            }
+            if (data["x-enumNames"] && data["x-enumNames"].constructor === Array) {
+                this.xEnumNames = [];
+                for (let item of data["x-enumNames"])
+                    this.xEnumNames.push(item);
+            }
+            if (data["enum"] && data["enum"].constructor === Array) {
+                this.enum = [];
+                for (let item of data["enum"])
+                    this.enum.push(item);
+            }
+            if (data["allOf"] && data["allOf"].constructor === Array) {
+                this.allOf = [];
+                for (let item of data["allOf"])
+                    this.allOf.push(JsonSchema4.fromJS(item));
+            }
+            if (data["anyOf"] && data["anyOf"].constructor === Array) {
+                this.anyOf = [];
+                for (let item of data["anyOf"])
+                    this.anyOf.push(JsonSchema4.fromJS(item));
+            }
+            if (data["oneOf"] && data["oneOf"].constructor === Array) {
+                this.oneOf = [];
+                for (let item of data["oneOf"])
+                    this.oneOf.push(JsonSchema4.fromJS(item));
+            }
+            this.__referencePath = data["__referencePath"];
+        }
+    }
+
+    static fromJS(data: any): JsonSchema4 {
+        data = typeof data === 'object' ? data : {};
+        let result = new JsonSchema4();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["$schema"] = this.$schema;
+        data["id"] = this.id;
+        data["title"] = this.title;
+        if (this.type) {
+            data["type"] = {};
+            for (let key in this.type) {
+                if (this.type.hasOwnProperty(key))
+                    data["type"][key] = this.type[key];
+            }
+        }
+        if (this.discriminator) {
+            data["discriminator"] = {};
+            for (let key in this.discriminator) {
+                if (this.discriminator.hasOwnProperty(key))
+                    data["discriminator"][key] = this.discriminator[key];
+            }
+        }
+        data["description"] = this.description;
+        data["format"] = this.format;
+        if (this.default) {
+            data["default"] = {};
+            for (let key in this.default) {
+                if (this.default.hasOwnProperty(key))
+                    data["default"][key] = this.default[key];
+            }
+        }
+        data["multipleOf"] = this.multipleOf;
+        data["maximum"] = this.maximum;
+        data["minimum"] = this.minimum;
+        data["maxLength"] = this.maxLength;
+        data["minLength"] = this.minLength;
+        data["pattern"] = this.pattern;
+        data["maxItems"] = this.maxItems;
+        data["minItems"] = this.minItems;
+        data["uniqueItems"] = this.uniqueItems;
+        data["maxProperties"] = this.maxProperties;
+        data["minProperties"] = this.minProperties;
+        data["x-deprecated"] = this.xDeprecated;
+        data["x-abstract"] = this.xAbstract;
+        data["x-nullable"] = this.xNullable;
+        if (this.xExample) {
+            data["x-example"] = {};
+            for (let key in this.xExample) {
+                if (this.xExample.hasOwnProperty(key))
+                    data["x-example"][key] = this.xExample[key];
+            }
+        }
+        data["x-enumFlags"] = this.xEnumFlags;
+        data["xml"] = this.xml ? this.xml.toJSON() : <any>undefined;
+        data["not"] = this.not ? this.not.toJSON() : <any>undefined;
+        if (this.exclusiveMaximum) {
+            data["exclusiveMaximum"] = {};
+            for (let key in this.exclusiveMaximum) {
+                if (this.exclusiveMaximum.hasOwnProperty(key))
+                    data["exclusiveMaximum"][key] = this.exclusiveMaximum[key];
+            }
+        }
+        if (this.exclusiveMinimum) {
+            data["exclusiveMinimum"] = {};
+            for (let key in this.exclusiveMinimum) {
+                if (this.exclusiveMinimum.hasOwnProperty(key))
+                    data["exclusiveMinimum"][key] = this.exclusiveMinimum[key];
+            }
+        }
+        if (this.additionalItems) {
+            data["additionalItems"] = {};
+            for (let key in this.additionalItems) {
+                if (this.additionalItems.hasOwnProperty(key))
+                    data["additionalItems"][key] = this.additionalItems[key];
+            }
+        }
+        if (this.additionalProperties) {
+            data["additionalProperties"] = {};
+            for (let key in this.additionalProperties) {
+                if (this.additionalProperties.hasOwnProperty(key))
+                    data["additionalProperties"][key] = this.additionalProperties[key];
+            }
+        }
+        if (this.items) {
+            data["items"] = {};
+            for (let key in this.items) {
+                if (this.items.hasOwnProperty(key))
+                    data["items"][key] = this.items[key];
+            }
+        }
+        if (this.required && this.required.constructor === Array) {
+            data["required"] = [];
+            for (let item of this.required)
+                data["required"].push(item);
+        }
+        if (this.properties) {
+            data["properties"] = {};
+            for (let key in this.properties) {
+                if (this.properties.hasOwnProperty(key))
+                    data["properties"][key] = this.properties[key];
+            }
+        }
+        if (this.patternProperties) {
+            data["patternProperties"] = {};
+            for (let key in this.patternProperties) {
+                if (this.patternProperties.hasOwnProperty(key))
+                    data["patternProperties"][key] = this.patternProperties[key];
+            }
+        }
+        if (this.definitions) {
+            data["definitions"] = {};
+            for (let key in this.definitions) {
+                if (this.definitions.hasOwnProperty(key))
+                    data["definitions"][key] = this.definitions[key];
+            }
+        }
+        if (this.xEnumNames && this.xEnumNames.constructor === Array) {
+            data["x-enumNames"] = [];
+            for (let item of this.xEnumNames)
+                data["x-enumNames"].push(item);
+        }
+        if (this.enum && this.enum.constructor === Array) {
+            data["enum"] = [];
+            for (let item of this.enum)
+                data["enum"].push(item);
+        }
+        if (this.allOf && this.allOf.constructor === Array) {
+            data["allOf"] = [];
+            for (let item of this.allOf)
+                data["allOf"].push(item.toJSON());
+        }
+        if (this.anyOf && this.anyOf.constructor === Array) {
+            data["anyOf"] = [];
+            for (let item of this.anyOf)
+                data["anyOf"].push(item.toJSON());
+        }
+        if (this.oneOf && this.oneOf.constructor === Array) {
+            data["oneOf"] = [];
+            for (let item of this.oneOf)
+                data["oneOf"].push(item.toJSON());
+        }
+        data["__referencePath"] = this.__referencePath;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new JsonSchema4();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IJsonSchema4 {
+    $schema: string | undefined;
+    id: string | undefined;
+    title: string | undefined;
+    type: any | undefined;
+    discriminator: any | undefined;
+    description: string | undefined;
+    format: string | undefined;
+    default: any | undefined;
+    multipleOf: number | undefined;
+    maximum: number | undefined;
+    minimum: number | undefined;
+    maxLength: number | undefined;
+    minLength: number | undefined;
+    pattern: string | undefined;
+    maxItems: number | undefined;
+    minItems: number | undefined;
+    uniqueItems: boolean | undefined;
+    maxProperties: number | undefined;
+    minProperties: number | undefined;
+    xDeprecated: boolean | undefined;
+    xAbstract: boolean | undefined;
+    xNullable: boolean | undefined;
+    xExample: any | undefined;
+    xEnumFlags: boolean | undefined;
+    xml: JsonXmlObject | undefined;
+    not: JsonSchema4 | undefined;
+    exclusiveMaximum: any | undefined;
+    exclusiveMinimum: any | undefined;
+    additionalItems: any | undefined;
+    additionalProperties: any | undefined;
+    items: any | undefined;
+    required: string[] | undefined;
+    properties: { [key: string] : JsonSchema4; } | undefined;
+    patternProperties: { [key: string] : JsonSchema4; } | undefined;
+    definitions: { [key: string] : JsonSchema4; } | undefined;
+    xEnumNames: string[] | undefined;
+    enum: any[] | undefined;
+    allOf: JsonSchema4[] | undefined;
+    anyOf: JsonSchema4[] | undefined;
+    oneOf: JsonSchema4[] | undefined;
+    __referencePath: string | undefined;
+}
+
+export class JsonXmlObject implements IJsonXmlObject {
+    name: string | undefined;
+    wrapped: boolean | undefined;
+    namespace: string | undefined;
+    prefix: string | undefined;
+    attribute: boolean | undefined;
+
+    constructor(data?: IJsonXmlObject) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.wrapped = data["wrapped"];
+            this.namespace = data["namespace"];
+            this.prefix = data["prefix"];
+            this.attribute = data["attribute"];
+        }
+    }
+
+    static fromJS(data: any): JsonXmlObject {
+        data = typeof data === 'object' ? data : {};
+        let result = new JsonXmlObject();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["wrapped"] = this.wrapped;
+        data["namespace"] = this.namespace;
+        data["prefix"] = this.prefix;
+        data["attribute"] = this.attribute;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new JsonXmlObject();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IJsonXmlObject {
+    name: string | undefined;
+    wrapped: boolean | undefined;
+    namespace: string | undefined;
+    prefix: string | undefined;
+    attribute: boolean | undefined;
 }
 
 export class CreateRoleDto implements ICreateRoleDto {
@@ -3144,6 +3756,12 @@ export enum IsTenantAvailableOutputState {
     _1 = 1, 
     _2 = 2, 
     _3 = 3, 
+}
+
+export enum DynamicFormDtoGender {
+    _0 = 0, 
+    _1 = 1, 
+    _2 = 2, 
 }
 
 export class SwaggerException extends Error {

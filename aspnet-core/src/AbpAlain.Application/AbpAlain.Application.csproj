@@ -16,4 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AbpAlain.Core\AbpAlain.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NJsonSchema" Version="9.10.60" />
+  </ItemGroup>
 </Project>

@@ -20,6 +20,8 @@
     <text name="LogIn" value="登录" />
 
     <text name="LoginFailed" value="登录失败!" />
+
+    <text name="UserNameNotNull" value="账号不能为空"></text>
     
   </texts>
 </localizationDictionary>

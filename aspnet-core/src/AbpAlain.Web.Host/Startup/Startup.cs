@@ -28,6 +28,17 @@ using Abp.AspNetCore.SignalR.Hubs;
 
 namespace AbpAlain.Web.Host.Startup
 {
+    using Microsoft.AspNetCore.Mvc.Filters;
+
+    public class GlobalExceptionFilter : IExceptionFilter
+    {
+        public void OnException(ExceptionContext context)
+        {
+            
+            //throw new NotImplementedException();
+        }
+    }
+
     public class Startup
     {
         private const string _defaultCorsPolicyName = "localhost";

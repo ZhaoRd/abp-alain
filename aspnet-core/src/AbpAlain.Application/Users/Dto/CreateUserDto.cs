@@ -10,11 +10,12 @@ namespace AbpAlain.Users.Dto
     [AutoMapTo(typeof(User))]
     public class CreateUserDto : IShouldNormalize
     {
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(AbpAlainResourceManager),
+            ErrorMessageResourceName = "UserNameNotNull")]
         [StringLength(AbpUserBase.MaxUserNameLength)]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "ABP#UserNameNotNull")]
         [StringLength(AbpUserBase.MaxNameLength)]
         public string Name { get; set; }
 

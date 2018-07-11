@@ -12,7 +12,10 @@ namespace AbpAlain
     {
         public override void PreInitialize()
         {
+            
             Configuration.Authorization.Providers.Add<AbpAlainAuthorizationProvider>();
+
+            
         }
 
         public override void Initialize()

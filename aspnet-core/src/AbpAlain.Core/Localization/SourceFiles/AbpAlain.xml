@@ -91,6 +91,7 @@
     <text name="StartTyping">Start Typing</text>
     <text name="Skins">Skins</text>
     <text name="Settings">Settings</text>
-    <text name="UserNameNotNull">Username must not be null</text>
+    <text name="UserNameNotNull">UserName is not allow null</text>
+    <text name="NameNotNull" value="Name is not allow null"></text>
   </texts>
 </localizationDictionary>

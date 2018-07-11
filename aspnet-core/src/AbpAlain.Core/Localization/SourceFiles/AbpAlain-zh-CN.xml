@@ -21,7 +21,7 @@
 
     <text name="LoginFailed" value="登录失败!" />
 
-    <text name="UserNameNotNull" value="账号不能为空"></text>
-    
+    <text name="UserNameNotNull" value="用户名不能为空"></text>
+    <text name="NameNotNull" value="名字不能为空"></text>
   </texts>
 </localizationDictionary>

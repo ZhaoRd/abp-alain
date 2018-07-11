@@ -15,7 +15,7 @@ namespace AbpAlain.Users.Dto
         [StringLength(AbpUserBase.MaxUserNameLength)]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "ABP#UserNameNotNull")]
+        [Required(ErrorMessage = "ABP#NameNotNull")]
         [StringLength(AbpUserBase.MaxNameLength)]
         public string Name { get; set; }
 

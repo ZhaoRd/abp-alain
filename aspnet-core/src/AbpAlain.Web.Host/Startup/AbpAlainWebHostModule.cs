@@ -47,21 +47,16 @@ namespace AbpAlain.Web.Host.Startup
     }
 
 
-    /// <summary>
-    /// This interceptor is used intercept method calls for classes which's methods must be validated.
-    /// </summary>
-    public class MethodParameterValidatorInterceptor : IInterceptor
+    
+    public class MvcActionInvocationValidatorInterceptor : IInterceptor
     {
-        private readonly IIocResolver _iocResolver;
-
+        
         private readonly ILocalizationManager _localizationManager;
-
-        private readonly ILogger _logger;
-        public MethodParameterValidatorInterceptor(IIocResolver iocResolver, ILocalizationManager localizationManager, ILogger logger)
+        
+        public MvcActionInvocationValidatorInterceptor(ILocalizationManager localizationManager)
         {
-            _iocResolver = iocResolver;
             this._localizationManager = localizationManager;
-            this._logger = logger;
+        
         }
 
         public void Intercept(IInvocation invocation)
@@ -121,7 +116,7 @@ namespace AbpAlain.Web.Host.Startup
 
             if (name == "MvcActionInvocationValidator")
             {
-                handler.ComponentModel.Interceptors.Add(new InterceptorReference(typeof(MethodParameterValidatorInterceptor)));
+                handler.ComponentModel.Interceptors.Add(new InterceptorReference(typeof(MvcActionInvocationValidatorInterceptor)));
             }
         }
     }
